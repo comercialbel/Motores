@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo Cliente 2026 Oficial - Bel Marine</title>
+    <style>
+        :root {
+            --bel-green: #15A24A;
+            --bel-blue: #0A1141;
+            --light-bg: #F4F6F9;
+            --card-bg: #FFFFFF;
+            --text-dark: #1E2229;
+            --text-muted: #5A6578;
+            --border-color: #E2E8F0;
+            --overlay-bg: rgba(10, 17, 65, 0.85);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            padding: 20px;
+        }
+
+        .control-panel {
+            background-color: var(--bel-blue);
+            padding: 15px 30px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #FFFFFF;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .brand-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .brand-logo {
+            height: 45px;
+            background: #fff;
+            padding: 4px;
+            border-radius: 4px;
+            object-fit: contain;
+        }
+
+        /* --- MÓDULO DE PRESENTACIÓN (SLIDER) --- */
+        .slider-section {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            margin-bottom: 35px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            background-color: #000;
+        }
+
+        .slider-wrapper {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .slide {
+            min-width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .slide-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.85));
+            color: #fff;
+            padding: 25px 40px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.3);
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+            z-index: 10;
+        }
+
+        .slider-btn:hover {
+            background: rgba(255, 255, 255, 0.6);
+        }
+
+        .slider-btn.prev { left: 20px; }
+        .slider-btn.next { right: 20px; }
+
+        .slider-dots {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 10;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.4);
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .dot.active {
+            background: var(--bel-green);
+            width: 24px;
+            border-radius: 5px;
+        }
+
+        /* --- CONTENEDOR DE TARJETAS --- */
+        .deck-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 25px;
+        }
+
+        .catalog-card {
+            background: #FFFFFF;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.04);
+            padding: 25px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .catalog-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(10, 17, 65, 0.1);
+            border-color: rgba(21, 162, 74, 0.4);
+        }
+
+        .card-image-container {
+            width: 100%;
+            height: 230px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #F8FAFC;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            border: 1px solid #EDF2F7;
+        }
+
+        .card-image-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .card-title {
+            font-size: 22px;
+            color: var(--bel-blue);
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            font-size: 12px;
+            color: var(--bel-green);
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+            display: block;
+        }
+
+        .tech-specs {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 20px;
+        }
+
+        .spec-item {
+            display: flex;
+            align-items: center;
+            font-size: 13px;
+        }
+
+        .spec-label {
+            width: 140px;
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+
+        .spec-value {
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        .pricing-table {
+            border-top: 2px solid #EDF2F7;
+            padding-top: 15px;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .price-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .price-val {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--bel-blue);
+        }
+
+        /* --- MODAL DE DETALLE (EXPANSIÓN) --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--overlay-bg);
+            backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            background: #FFFFFF;
+            width: 90%;
+            max-width: 850px;
+            max-height: 90vh;
+            border-radius: 16px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            overflow-y: auto;
+            position: relative;
+            padding: 35px;
+            animation: modalScale 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        @keyframes modalScale {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #F1F5F9;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--bel-blue);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .modal-close:hover {
+            background: #E2E8F0;
+            color: #FF0000;
+        }
+
+        .modal-body-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 35px;
+            margin-top: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .modal-body-layout { grid-template-columns: 1fr; gap: 20px; }
+            .slider-section { height: 250px; }
+        }
+
+        .modal-left img {
+            width: 100%;
+            max-height: 380px;
+            object-fit: contain;
+            background: #F8FAFC;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            padding: 15px;
+        }
+
+        .modal-right .tech-specs {
+            gap: 10px;
+            background: #F8FAFC;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
+
+        .modal-right .spec-item {
+            font-size: 14px;
+            padding-bottom: 6px;
+            border-bottom: 1px dashed #E2E8F0;
+        }
+
+        .modal-right .spec-item:last-child { border-bottom: none; }
+        .modal-right .pricing-table { margin-top: 20px; }
+        .modal-right .price-val { font-size: 18px; }
+    </style>
+</head>
+<body>
+
+    <div class="control-panel">
+        <div class="brand-header">
+            <img src="Gemini_Generated_Image_f6azelf6azelf6az.png" alt="Bel Marine Logo" class="brand-logo" onerror="this.style.display='none'">
+            <h2>Catálogo Cliente 2026 Oficial — Bel Marine</h2>
+        </div>
+    </div>
+
+    <div class="slider-section">
+        <div class="slider-wrapper" id="sliderWrapper">
+            <div class="slide">
+                <img src="belmarine_1.jpg.jpg" alt="Presentación Bel Marine 1">
+                <div class="slide-caption">Línea de Motores Fuera de Borda Profesionales</div>
+            </div>
+            <div class="slide">
+                <img src="belmarine_2.jpg.jpg" alt="Presentación Bel Marine 2">
+                <div class="slide-caption">Ingeniería de Alta Resistencia para Operaciones Continuas</div>
+            </div>
+            <div class="slide">
+                <img src="belmarine_3.jpg.jpg" alt="Presentación Bel Marine 3">
+                <div class="slide-caption">Máxima Eficiencia en Consumo de Combustible</div>
+            </div>
+            <div class="slide">
+                <img src="belmarine_4.jpg.jpg" alt="Presentación Bel Marine 4">
+                <div class="slide-caption">Sistemas Avanzados de Carburación Múltiple</div>
+            </div>
+            <div class="slide">
+                <img src="belmarine_5.jpg.jpg" alt="Presentación Bel Marine 5">
+                <div class="slide-caption">Diseño Hidrodinámico Optimizado para Aguas Nacionales</div>
+            </div>
+            <div class="slide">
+                <img src="belmarine_6.jpg.jpg" alt="Presentación Bel Marine 6">
+                <div class="slide-caption">Garantía, Repuestos y Soporte Técnico Postventa</div>
+            </div>
+            <div class="slide">
+                <img src="belmarine_7.jpg.jpg" alt="Presentación Bel Marine 7">
+                <div class="slide-caption">Fuerza y Durabilidad en Cada Travesía</div>
+            </div>
+        </div>
+        <button class="slider-btn prev" id="prevBtn">&#10094;</button>
+        <button class="slider-btn next" id="nextBtn">&#10095;</button>
+        <div class="slider-dots" id="sliderDots"></div>
+    </div>
+
+    <div id="deck" class="deck-container">
+
+        <div class="catalog-card">
+            <div>
+                <div class="card-image-container">
+                    <img src="PNT3.jpg" alt="Motor Bel Marine PNT3">
+                </div>
+                <div class="card-title">PNT3 <span style="font-size:12px; color:var(--bel-green)">3 HP</span></div>
+                <div class="subtitle">Gama Portátil</div>
+                <div class="tech-specs">
+                    <div class="spec-item"><span class="spec-label">Cilindros</span><span class="spec-value">1</span></div>
+                    <div class="spec-item"><span class="spec-label">Cilindrada</span><span class="spec-value">70 cc</span></div>
+                    <div class="spec-item"><span class="spec-label">Diám. x Carr.</span><span class="spec-value">46x42 mm</span></div>
+                    <div class="spec-item"><span class="spec-label">Esp. Popa</span><span class="spec-value">381 / 508 mm</span></div>
+                    <div class="spec-item"><span class="spec-label">Max RPM</span><span class="spec-value">5.000</span></div>
+                    <div class="spec-item"><span class="spec-label">Peso</span><span class="spec-value">16,5 / 17,5 Kg</span></div>
+                    <div class="spec-item"><span class="spec-label">Tanque</span><span class="spec-value">1.4 L Int.</span></div>
+                    <div class="spec-item"><span class="spec-label">Arranque</span><span class="spec-value">Manual</span></div>
+                    <div class="spec-item"><span class="spec-label">Combustible</span><span class="spec-value">1 Carburador</span></div>
+                </div>
+            </div>
+            <div class="pricing-table">
+                <div class="price-row"><span class="price-label">Compra Directa</span><span class="price-val">$519,00</span></div>
+                <div class="price-row"><span class="price-label">Travesía</span><span class="price-val">$556,00</span></div>
+                <div class="price-row"><span class="price-label">Entrega Inmediata</span><span class="price-val">$701,00</span></div>
+            </div>
+        </div>
+
+        <div class="catalog-card">
+            <div>
+                <div class="card-image-container">
+                    <img src="PNT5.jpg" alt="Motor Bel Marine PNT5">
+                </div>
+                <div class="card-title">PNT5 <span style="font-size:12px; color:var(--bel-green)">5 HP</span></div>
+                <div class="subtitle">Gama Portátil</div>
+                <div class="tech-specs">
+                    <div class="spec-item"><span class="spec-label">Cilindros</span><span class="spec-value">1</span></div>
+                    <div class="spec-item"><span class="spec-label">Cilindrada</span><span class="spec-value">103 cc</span></div>
+                    <div class="spec-item"><span class="spec-label">Diám. x Carr.</span><span class="spec-value">54x45 mm</span></div>
+                    <div class="spec-item"><span class="spec-label">Esp. Popa</span><span class="spec-value">381 / 508 mm</span></div>
+                    <div class="spec-item"><span class="spec-label">Max RPM</span><span class="spec-value">5.000</span></div>
+                    <div class="spec-item"><span class="spec-label">Peso</span><span class="spec-value">21,0 / 21,5 Kg</span></div>
+                    <div class="spec-item"><span class="spec-label">Tanque</span><span class="spec-value">12 L Ext.</span></div>
+                    <div class="spec-item"><span class="spec-label">Arranque</span><span class="spec-value">Manual</span></div>
+                    <div class="spec-item"><span class="spec-label">Combustible</span><span class="spec-value">1 Carburador</span></div>
+                </div>
+            </div>
+            <div class="pricing-table">
+                <div class="price-row"><span class="price-label">Compra Directa</span><span class="price-val">$679,00</span></div>
+                <div class="price-row"><span class="price-label">Travesía</span><span class="price-val">$727,00</span></div>
+                <div class="price-row"><span class="price-label">Entrega Inmediata</span><span class="price-val">$917,00</span></div>
+            </div>
+        </div>
+
+        <div class="catalog-card">
+            <div>
+                <div class="card-image-container">
+                    <img src="PNT15S.jpg" alt="Motor Bel Marine PNT15S">
+                </div>
+                <div class="card-title">PNT15S <span style="font-size:12px; color:var(--bel-green)">15 HP</span></div>
+                <div class="subtitle">Gama Media</div>
+                <div class="tech-specs">
+                    <div class="spec-item"><span class="spec-label">Cilindros</span><span class="spec-value">2</span></div>
+                    <div class="spec-item"><span class="spec-label">Cilindrada</span><span class="spec-value">246 cc</span></div>
+                    <div class="spec-item"><span class="spec-label">Diám. x Carr.</span><span class="spec-value">56x50 mm</span></div>
+                    <div class="spec-item"><span class="spec-label">Esp. Popa</span><span class="spec-value">440 / 507 mm</span></div>
+                    <div class="spec-item"><span class="spec-label">Max RPM</span><span class="spec-value">5.000</span></div>
+                    <div class="spec-item"><span class="spec-label">Peso</span><span class="spec-value">36,0 Kg</span></div>
+                    <div class="spec-item"><span class="spec-label">Tanque</span><span class="spec-value">24 L Ext.</span></div>
+                    <div class="spec-item"><span class="spec-label">Arranque</span><span class="spec-value">Manual</span></div>
+                    <div class="spec-item"><span class="spec-label">Combustible</span><span class="spec-value">1 Carburador</span></div>
+                </div>
+            </div>
+            <div class="pricing-table">
+                <div class="price-row"><span class="price-label">Compra Directa</span><span class="price-val">$1.142,00</span></div>
+                <div class="price-row"><span class="price-label">Travesía</span><span class="price-val">$1.222,00</span></div>
+                <div class="price-row"><span class="price-label">Entrega Inmediata</span><span class="price-val">$1.542,00</span></div>
+            </div>
+        </div>
+
+        <div class="catalog-card">
+            <div>
+                <div class="card-image-container">
+                    <img src="PNT40L.jpg" alt="Motor Bel Marine PNT40S">
+                </div>
+                <div class="card-title">PNT40S <span style="font-size:12px; color:var(--bel-green)">40 HP</span></div>
+                <div class="subtitle">Gama Media-Alta</div>
+                <div class="tech-specs">
+                    <div class="spec-item"><span class="spec-label">Cilindros</span><span class="spec-value">2</span></div>
+                    <div class="spec-item"><span class="spec-label">Cilindrada</span><span class="spec-value">703 cc</span></div>
+                    <div class="spec-item"><span class="spec-label">Diám. x Carr.</span><span class="spec-value">80x70 mm</span></div>
+                    <div class="spec-item"><span class="spec-label">Esp. Popa</span><span class="spec-value">424 mm</span></div>
+                    <div class="spec-item"><span class="spec-label">Max RPM</span><span class="spec-value">5.000</span></div>
+                    <div class="spec-item"><span class="spec-label">Peso</span><span class="spec-value">76.4 Kg</span></div>
+                    <div class="spec-item"><span class="spec-label">Tanque</span><span class="spec-value">24 L Ext.</span></div>
+                    <div class="spec-item"><span class="spec-label">Arranque</span><span class="spec-value">Manual</span></div>
+                    <div class="spec-item"><span class="spec-label">Combustible</span><span class="spec-value">1 Carburador</span></div>
+                </div>
+            </div>
+            <div class="pricing-table">
+                <div class="price-row"><span class="price-label">Compra Directa</span><span class="price-val">$2.151,00</span></div>
+                <div class="price-row"><span class="price-label">Travesía</span><span class="price-val">$2.302,00</span></div>
+                <div class="price-row"><span class="price-label">Entrega Inmediata</span><span class="price-val">$2.904,00</span></div>
+            </div>
+        </div>
+
+        <div class="catalog-card">
+            <div>
+                <div class="card-image-container">
+                    <img src="PNT40L.jpg" alt="Motor Bel Marine PNT40L">
+                </div>
+                <div class="card-title">PNT40L <span style="font-size:12px; color:var(--bel-green)">40 HP</span></div>
+                <div class="subtitle">Gama Media-Alta</div>
+                <div class="tech-specs">
+                    <div class="spec-item"><span class="spec-label">Cilindros</span><span class="spec-value">2</span></div>
+                    <div class="spec-item"><span class="spec-label">Cilindrada</span><span class="spec-value">703 cc</span></div>
+                    <div class="spec-item"><span class="spec-label">Diám. x Carr.</span><span class="spec-value">80x70 mm</span></div>
+                    <div class="spec-item"><span class="spec-label">Esp. Popa</span><span class="spec-value">550 mm</span></div>
+                    <div class="spec-item"><span class="spec-label">Max RPM</span><span class="spec-value">5.000</span></div>
+                    <div class="spec-item"><span class="spec-label">Peso</span><span class="spec-value">78.0 Kg</span></div>
+                    <div class="spec-item"><span class="spec-label">Tanque</span><span class="spec-value">24 L Ext.</span></div>
+                    <div class="spec-item"><span class="spec-label">Arranque</span><span class="spec-value">Manual</span></div>
+                    <div class="spec-item"><span class="spec-label">Combustible</span><span class="spec-value">1 Carburador</span></div>
+                </div>
+            </div>
+            <div class="pricing-table">
+                <div class="price-row"><span class="price-label">Compra Directa</span><span class="price-val">$2.174,00</span></div>
+                <div class="price-row"><span class="price-label">Travesía</span><span class="price-val">$2.327,00</span></div>
+                <div class="price-row"><span class="price-label">Entrega Inmediata</span><span class="price-val">$2.935,00</span></div>
+            </div>
+        </div>
+
+        <div class="catalog-card">
+            <div>
+                <div class="card-image-container">
+                    <img src="PNT60L.jpg" alt="Motor Bel Marine PNT60L">
+                </div>
+                <div class="card-title">PNT60L <span style="font-size:12px; color:var(--bel-green)">60 HP</span></div>
+                <div class="subtitle">Gama Alta</div>
+                <div class="tech-specs">
+                    <div class="spec-item"><span class="spec-label">Cilindros</span><span class="spec-value">3</span></div>
+                    <div class="spec-item"><span class="spec-label">Cilindrada</span><span class="spec-value">849 cc</span></div>
+                    <div class="spec-item"><span class="spec-label">Diám. x Carr.</span><span class="spec-value">72x69.5 mm</span></div>
+                    <div class="spec-item"><span class="spec-label">Esp. Popa</span><span class="spec-value">571 mm</span></div>
+                    <div class="spec-item"><span class="spec-label">Max RPM</span><span class="spec-value">5.000</span></div>
+                    <div class="spec-item"><span class="spec-label">Peso</span><span class="spec-value">112.0 Kg</span></div>
+                    <div class="spec-item"><span class="spec-label">Tanque</span><span class="spec-value">24 L Ext.</span></div>
+                    <div class="spec-item"><span class="spec-label">Arranque</span><span class="spec-value">Manual / Eléc.</span></div>
+                    <div class="spec-item"><span class="spec-label">Combustible</span><span class="spec-value">3 Carburadores</span></div>
+                </div>
+            </div>
+            <div class="pricing-table">
+                <div class="price-row"><span class="price-label">Compra Directa</span><span class="price-val">$3.417,00</span></div>
+                <div class="price-row"><span class="price-label">Travesía</span><span class="price-val">$3.657,00</span></div>
+                <div class="price-row"><span class="price-label">Entrega Inmediata</span><span class="price-val">$4.613,00</span></div>
+            </div>
+        </div>
+
+        <div class="catalog-card">
+            <div>
+                <div class="card-image-container">
+                    <img src="PNT75.jpg" alt="Motor Bel Marine PNT75">
+                </div>
+                <div class="card-title">PNT75 <span style="font-size:12px; color:var(--bel-green)">75 HP</span></div>
+                <div class="subtitle">Gama Alta</div>
+                <div class="tech-specs">
+                    <div class="spec-item"><span class="spec-label">Cilindros</span><span class="spec-value">3</span></div>
+                    <div class="spec-item"><span class="spec-label">Cilindrada</span><span class="spec-value">896 cc</span></div>
+                    <div class="spec-item"><span class="spec-label">Diám. x Carr.</span><span class="spec-value">74x69.5 mm</span></div>
+                    <div class="spec-item"><span class="spec-label">Esp. Popa</span><span class="spec-value">521/572/648 mm</span></div>
+                    <div class="spec-item"><span class="spec-label">Max RPM</span><span class="spec-value">5.000</span></div>
+                    <div class="spec-item"><span class="spec-label">Peso</span><span class="spec-value">112/105/108 Kg</span></div>
+                    <div class="spec-item"><span class="spec-label">Tanque</span><span class="spec-value">24 L Ext.</span></div>
+                    <div class="spec-item"><span class="spec-label">Arranque</span><span class="spec-value">Eléctrico</span></div>
+                    <div class="spec-item"><span class="spec-label">Combustible</span><span class="spec-value">3 Carburadores</span></div>
+                </div>
+            </div>
+            <div class="pricing-table">
+                <div class="price-row"><span class="price-label">Compra Directa</span><span class="price-val">$4.118,00</span></div>
+                <div class="price-row"><span class="price-label">Travesía</span><span class="price-val">$4.407,00</span></div>
+                <div class="price-row"><span class="price-label">Entrega Inmediata</span><span class="price-val">$5.560,00</span></div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">&times;</button>
+            <h2 id="modalTitle" style="color: var(--bel-blue); font-size: 26px; font-weight: 800;"></h2>
+            <span id="modalSubtitle" class="subtitle" style="margin-top: 5px;"></span>
+            
+            <div class="modal-body-layout">
+                <div class="modal-left">
+                    <img id="modalImg" src="" alt="Vista Detallada">
+                </div>
+                <div class="modal-right">
+                    <div class="tech-specs" id="modalSpecs"></div>
+                    <div class="pricing-table" id="modalPricing"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- CONTROL DEL SLIDER ---
+        const wrapper = document.getElementById('sliderWrapper');
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const dotsContainer = document.getElementById('sliderDots');
+        
+        let currentSlide = 0;
+        const totalSlides = slides.length;
+        let slideInterval = setInterval(nextSlide, 5000);
+
+        // Generar puntos indicadores
+        slides.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            if(index === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => goToSlide(index));
+            dotsContainer.appendChild(dot);
+        });
+
+        const dots = document.querySelectorAll('.dot');
+
+        function updateSlider() {
+            wrapper.style.transform = `translateX(-${currentSlide * 100}%)`;
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlide);
+            });
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateSlider();
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            updateSlider();
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateSlider();
+            resetInterval();
+        }
+
+        function resetInterval() {
+            clearInterval(slideInterval);
+            slideInterval = setInterval(nextSlide, 5000);
+        }
+
+        nextBtn.addEventListener('click', () => { nextSlide(); resetInterval(); });
+        prevBtn.addEventListener('click', () => { prevSlide(); resetInterval(); });
+
+
+        // --- CONTROL DEL MODAL DE DETALLES ---
+        const cards = document.querySelectorAll('.catalog-card');
+        const overlay = document.getElementById('modalOverlay');
+        const closeBtn = document.getElementById('modalClose');
+        
+        const mTitle = document.getElementById('modalTitle');
+        const mSubtitle = document.getElementById('modalSubtitle');
+        const mImg = document.getElementById('modalImg');
+        const mSpecs = document.getElementById('modalSpecs');
+        const mPricing = document.getElementById('modalPricing');
+
+        cards.forEach(card => {
+            card.addEventListener('click', () => {
+                // Extraer datos de la tarjeta clickeada
+                const title = card.querySelector('.card-title').innerHTML;
+                const subtitle = card.querySelector('.subtitle').textContent;
+                const imgSrc = card.querySelector('.card-image-container img').src;
+                const specs = card.querySelector('.tech-specs').innerHTML;
+                const pricing = card.querySelector('.pricing-table').innerHTML;
+
+                // Inyectar datos en el Modal
+                mTitle.innerHTML = title;
+                mSubtitle.textContent = subtitle;
+                mImg.src = imgSrc;
+                mSpecs.innerHTML = specs;
+                mPricing.innerHTML = pricing;
+
+                // Mostrar Modal
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Detener scroll de fondo
+            });
+        });
+
+        function closeModal() {
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        closeBtn.addEventListener('click', closeModal);
+        overlay.addEventListener('click', (e) => {
+            if(e.target === overlay) closeModal();
+        });
+        
+        // Cerrar con tecla Escape
+        document.addEventListener('keydown', (e) => {
+            if(e.key === 'Escape' && overlay.classList.contains('active')) closeModal();
+        });
+    </script>
+</body>
+</html>
